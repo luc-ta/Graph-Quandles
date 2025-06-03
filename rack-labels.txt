@@ -1,0 +1,50 @@
+local edges, i, gamma, aut, racks, quandles, R, x, y, isHom, isQuandle;
+
+# add edges to the graph
+edges := List([1..n],i -> [i mod n + 1, (i+1) mod n + 1]); # cycle graph Cn
+# edges := List([2..n],i -> [1, i]); # star graph K1,n
+
+# obtain the permutation representation of the automorphism group on the vertex set
+gamma := Graph(Group(()), [1..n], OnPoints, function(v,w) return [v,w] in edges or [w,v] in edges; end);
+# gamma := Graph( SymmetricGroup(5), [[1,2]], OnSets, function(x,y) return Intersection(x,y)=[]; end ); # Petersen graph
+
+aut := Elements(AutGroupGraph(gamma));
+# Print("Permutation representation: ",String(aut),"\n");
+
+# count rack homomorphisms
+racks := 0;
+quandles := 0;
+# for all maps R: V = [1..n] -> aut, check whether R is a rack homomorphism
+for R in Tuples(aut, n) do # encode a map R as a list whose i-th entry is R(i)
+	isHom := true;
+	for x in [1..n] do
+		for y in [1..n] do
+			if R[y^R[x]] <> R[x]^(-1)*R[y]*R[x] then
+				isHom := false; 
+				break;
+			fi;
+		od;
+		if not isHom then
+			break;
+		fi;
+	od;
+	if isHom then
+		racks := racks + 1;
+		isQuandle := true;
+		for x in [1..n] do
+			if x^R[x] <> x then
+				isQuandle := false; 
+				break;
+			fi;
+		od;
+		if isQuandle then
+			quandles := quandles + 1;
+		fi;
+	fi;
+od;
+
+Print("Vertex count: ",n,"\n");
+Print("Markings that realize racks: ",racks,"\n");
+Print("Markings that realize quandles: ",quandles,"\n");
+
+PrintTo (Concatenation(GLR.path, "results_", String(n), ".txt"),"Markings that realize racks: ",racks,"\n","Markings that realize quandles: ",quandles,"\n");
