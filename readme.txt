@@ -1,4 +1,4 @@
-rack-labels.txt accompanies the paper "Graph quandles: Generalized Cayley graphs of racks and right quasigroups" by Lực Ta. It performs an exhaustive search of all vertex markings of a given graph that realize racks and quandles in the sense of Valeriy Bardakov.
+rack-labels.txt is a GAP program accompanying the paper "Graph quandles: Generalized Cayley graphs of racks and right quasigroups" by Lực Ta. It performs an exhaustive search of all vertex markings of a given graph that realize racks and quandles in the sense of Valeriy Bardakov.
 
 To use rack-labels.txt, first load the GRAPE package in GAP:
 
